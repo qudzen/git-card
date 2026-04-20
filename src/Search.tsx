@@ -4,5 +4,8 @@ function Search(userName) {
             <div>Ничего не найдено</div>
         )
     }
+    return (
+        <div>Пользователь {userName} найден</div>
+    )
 }
 export default Search;
