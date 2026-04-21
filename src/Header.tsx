@@ -1,28 +1,49 @@
 import './index.css'
-import {useState} from "react";
+import {useRef, useState} from "react";
 
 function Header() {
     const [searchUserName, setSearchUserName] = useState('')
     const [results, setResults] = useState(null)
-    const [searchText, setSearchText] = useState('')
+    const [hints, setHints] = useState(null)
 
-    async function search() {
+
+    const timerRef = useRef(null)
+
+    const [selectUser, setSelectUser] = useState(false)
+
+    async function search(searchText) {
         const response = await fetch('https://api.github.com/users/' + searchText )
         const data = await response.json()
         console.log(data)
         setResults(data)
-        console.log(searchUserName)
+//        console.log(searchUserName)
+    }
+
+    async function searchHints(searchText) {
+        const response = await fetch('https://api.github.com/search/users?q=' + searchText + '&per_page=5')
+        const data = await response.json()
+        setHints(data)
+        console.log(data.items)
     }
 
     const onSearch = (event) => {
-        setSearchText(event.target.value)
+        const searchText = (event.target.value)
         setSearchUserName(searchText)
+        if (timerRef.current) clearTimeout(timerRef.current)
         if (searchText.trim() === '') {
             setResults([])
             return
         }
-        search()
+        timerRef.current = setTimeout(() => {
+            searchHints(searchText)
+        }, 500)
+    }
 
+    const enterSearch = (event) => {
+        if (event.key === 'Enter') {
+            setSelectUser(true)
+            search(searchUserName)
+        }
     }
 
 
@@ -43,12 +64,22 @@ function Header() {
                     placeholder="🔍 Search GitHub user..."
                     value={searchUserName}
                     onChange = {onSearch}
+                    onKeyDown = {enterSearch}
                 />
             </div>
         </div>
             {results !== null ?
                 <div>{results.name}</div> :
-                <h1>Пользователь {searchUserName} не найден</h1>}
+                <h1>Пользователь {searchUserName} не найден</h1>
+            }
+            {selectUser === false ? (
+                hints !== null ? (
+                    hints.items.map(user => <div>{user.login}</div>)
+                    ) : (
+                        <div>По запросу  ничего не найдено</div>
+                    )
+                ) : null
+            }
         </div>
 
     )
