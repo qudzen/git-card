@@ -3,27 +3,30 @@ import {useState} from "react";
 
 function Header() {
     const [searchUserName, setSearchUserName] = useState('')
-    const [results, setResults] = useState([])
+    const [results, setResults] = useState(null)
+    const [searchText, setSearchText] = useState('')
 
-    const users = [
-        {id: 1, name: 'vasa'},
-        {id: 2, name: 'oleg'},
-        {id: 3, name: 'masha'},
-    ]
+    async function search() {
+        const response = await fetch('https://api.github.com/users/' + searchText )
+        const data = await response.json()
+        console.log(data)
+        setResults(data)
+        console.log(searchUserName)
+    }
 
     const onSearch = (event) => {
-        const searchText = event.target.value
+        setSearchText(event.target.value)
         setSearchUserName(searchText)
         if (searchText.trim() === '') {
             setResults([])
             return
         }
+        search()
 
-        const filteredName = users.filter(user =>
-            user.name.toLowerCase().includes(searchText)
-        )
-        setResults(filteredName)
     }
+
+
+    console.log(searchUserName)
 
 
 
@@ -43,8 +46,8 @@ function Header() {
                 />
             </div>
         </div>
-            {results.length > 0 ?
-                <h1>{results.length} {results.map(user => (<div>{user.name}</div>))}</h1> :
+            {results !== null ?
+                <div>{results.name}</div> :
                 <h1>Пользователь {searchUserName} не найден</h1>}
         </div>
 
