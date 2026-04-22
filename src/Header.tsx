@@ -2,50 +2,73 @@ import './index.css'
 import {useRef, useState} from "react";
 
 function Header() {
-    const [searchUserName, setSearchUserName] = useState('')
-    const [results, setResults] = useState(null)
-    const [hints, setHints] = useState(null)
+    interface HintUser {
+        login: string
+        id: number
+        avatar_url: string
+    }
+
+    interface GithubUser {
+        login: string
+        name: string | null
+        avatar_url: string
+        bio: string | null
+        public_repos: number
+        followers: number
+        following: number
+        created_at: string
+        html_url: string
+    }
+
+    interface SearchResponse {
+        items: HintUser[]
+        total_count: number
+    }
+
+    const [searchUserName, setSearchUserName] = useState<string>('')
+    const [results, setResults] = useState<GithubUser | null>(null)
+    const [hints, setHints] = useState<SearchResponse | null>(null)
 
 
-    const timerRef = useRef(null)
+    const timerRef = useRef<number | null>(null)
 
-    const [selectUser, setSelectUser] = useState(false)
+    const [selectUser, setSelectUser] = useState<boolean | null>(false)
 
-    async function search(searchText) {
-        const response = await fetch('https://api.github.com/users/' + searchText )
-        const data = await response.json()
-        console.log(data)
-        setResults(data)
+//    async function search(searchText: string):Promise<void> {
+//        const response = await fetch('https://api.github.com/users/' + searchText )
+//        const data = await response.json()
+//        console.log(data)
+//        setResults(data)
 //        console.log(searchUserName)
-    }
+//    }
 
-    async function searchHints(searchText) {
-        const response = await fetch('https://api.github.com/search/users?q=' + searchText + '&per_page=5')
-        const data = await response.json()
-        setHints(data)
-        console.log(data.items)
-    }
+//    async function searchHints(searchText: string):Promise<void>  {
+//        const response = await fetch('https://api.github.com/search/users?q=' + searchText + '&per_page=5')
+//        const data = await response.json()
+//        setHints(data)
+//        console.log(data.items)
+//    }
 
-    const onSearch = (event) => {
-        const searchText = (event.target.value)
-        setSearchUserName(searchText)
-        if (timerRef.current) clearTimeout(timerRef.current)
-        if (searchText.trim() === '') {
-            setResults([])
-            setHints(null)
-            return
-        }
-        timerRef.current = setTimeout(() => {
-            searchHints(searchText)
-        }, 300)
-    }
+//    const onSearch = (event: React.ChangeEvent<HTMLInputElement>): void => {
+//        const searchText = (event.target.value)
+//        setSearchUserName(searchText)
+//        if (timerRef.current) clearTimeout(timerRef.current)
+//        if (searchText.trim() === '') {
+//            setResults(null)
+//            setHints(null)
+//            return
+//        }
+//        timerRef.current = setTimeout(() => {
+//            searchHints(searchText)
+//        }, 300)
+//    }
 
-    const enterSearch = (event) => {
-        if (event.key === 'Enter') {
-            setSelectUser(true)
-            search(searchUserName)
-        }
-    }
+//    const enterSearch = (event: React.KeyboardEvent<HTMLInputElement>): void => {
+//        if (event.key === 'Enter') {
+//            setSelectUser(true)
+//            search(searchUserName)
+//        }
+//    }
 
 
 
@@ -73,7 +96,11 @@ function Header() {
                     {selectUser === false && hints !== null && (
                         <div className='absolute top-full left-0 w-80 mt-1 border-2 border-gray-600 rounded-lg bg-gray-800 z-50 overflow-hidden shadow-xl'>
                             {hints.items.map(user => (
-                                <div
+                                <div onClick={() => {
+                                    setSearchUserName(user.login)
+                                    search(user.login)
+                                    setSelectUser(null)
+                                    }}
                                     key={user.login}
                                     className='text-white px-6 py-3 hover:bg-gray-700 cursor-pointer transition-colors'
                                 >
