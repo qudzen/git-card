@@ -1,4 +1,4 @@
-import type {ContributionResponse, GithubUser, SearchResponse, Repos} from './types'
+import type {ContributionWeek, GithubUser, SearchResponse, Repos} from './types'
 
 export async function fetchUser(searchText: string):Promise<GithubUser> {
     const response = await fetch('http://localhost:3001/user?username=' + searchText)

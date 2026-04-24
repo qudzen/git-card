@@ -1,5 +1,5 @@
 import Header from './Header';
-import {useGithubSearch} from "./GithubSearch.tsx";
+import {useGithubSearch} from "./useGithubSearch.ts";
 import {Body} from "./Body.tsx";
 function App() {
     const {
