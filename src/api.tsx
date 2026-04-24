@@ -17,6 +17,7 @@ export async function fetchHints(searchText: string):Promise<SearchResponse>  {
 export async function fetchContributions (searchText: string):Promise<ContributionWeek[]>  {
     const response = await fetch('http://localhost:3001/contributions?username=' + searchText)
     const data = await response.json()
+    if (!data.data.user) return []
     return data.data.user.contributionsCollection.contributionCalendar.weeks
 }
 
