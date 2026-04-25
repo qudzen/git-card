@@ -1,6 +1,7 @@
 import Header from './Header';
 import {useGithubSearch} from "./useGithubSearch.ts";
 import {Body} from "./Body.tsx";
+import {useBodyLogic} from "./useBodyLogic.ts";
 function App() {
     const {
         searchUserName,
@@ -10,6 +11,13 @@ function App() {
         onKeyDown,
         selectHint
     } = useGithubSearch()
+
+    const {
+        reposUser,
+        totalCommits,
+        weeks,
+    } = useBodyLogic(searchUserName)
+
   return (
       <div className='flex flex-col min-h-screen'>
         <Header
@@ -21,7 +29,9 @@ function App() {
         />
         <Body
             results={results}
-            searchUserName={searchUserName}
+            reposUser={reposUser}
+            totalCommits={totalCommits}
+            weeks={weeks}
         />
       </div>
   )

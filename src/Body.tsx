@@ -1,39 +1,25 @@
 import type {GithubUser, Repos, ContributionWeek} from "./types.tsx";
-import {useEffect, useState} from "react";
-import {fetchContributions, fetchRepos} from "./api.tsx";
+
 
 interface Props {
     results: GithubUser | null,
-    searchUserName: string
+    reposUser: Repos[] | null,
+    totalCommits: number,
+    weeks: ContributionWeek[],
+
 }
-export function Body({results, searchUserName}: Props){
-    const [reposUser, setRepoUsers] = useState<Repos[] | null>(null)
-
-    const [weeks, setWeeks] = useState<ContributionWeek[]>([])
-
-    useEffect(() => {
-        async function calendar() {
-            const data = await fetchContributions(searchUserName)
-            setWeeks(data)
-        }
-        calendar()
-    }, [searchUserName])
-
-    useEffect(()=>{
-        async function loadRepos() {
-            const data = await fetchRepos(searchUserName)
-            setRepoUsers(data)
-        }
-        loadRepos();
-    }, [searchUserName])
-
-    const totalCommits = weeks.flatMap(week => week.contributionDays).reduce((sum, day) => sum + day.contributionCount, 0)
-
-
+export function Body({results, reposUser, totalCommits, weeks}: Props){
 
     return (
+        <>
+        {results === null ? (
+                <div className='flex flex-col items-center justify-center flex-grow text-white/30 gap-4 bg-gradient-to-r from-gray-900 to-gray-700 border-gray-600 rounded-4xl mt-2 mb-2 mx-3'>
+                    <span className='text-8xl'>🔍</span>
+                    <span className='text-2xl font-bold'>Search for a GitHub user</span>
+                </div>
+            ) : (
+
         <div className='grid grid-cols-[3fr_1.5fr] bg-gradient-to-r from-gray-900 to-gray-700 border-gray-600 rounded-4xl text-white mt-2 mb-2 mx-3 flex-grow'>
-        {results !== null ?
             <>
                 <div className='grid grid-rows-[1fr_1fr] mt-3 mx-3'>
                     <div className='flex items-center gap-4 relative'>
@@ -43,7 +29,9 @@ export function Body({results, searchUserName}: Props){
                             {results.name}
                         </div>
                         <div className='font-bold text-5xl mr-9'>
-                            {results.login}
+                            <a href={results.html_url} target='_blank' rel='noreferrer' className='font-bold text-5xl mr-9 text-white no-underline'>
+                                {results.login}
+                            </a>
                         </div>
                     </div>
 
@@ -51,7 +39,7 @@ export function Body({results, searchUserName}: Props){
                     {results.bio !== null ?
                         <div className='font-bold mr-9 line-clamp-7'>{results.bio}</div>
                         :
-                        <div className='font-bold mx-10 line-clamp-7 gap-2 flex flex-col text-2xl'>
+                        <div className='font-bold mx-12 line-clamp-7 gap-2 flex flex-col text-2xl'>
                             <span>👥 {results.followers} followers</span>
                             <span>➕ {results.following} following</span>
                             <span>📁 {results.public_repos} repos</span>
@@ -93,9 +81,11 @@ export function Body({results, searchUserName}: Props){
                         </div>
                     ))}
                 </div>
-            </>:
-            <h1>Пользователь {searchUserName} не найден</h1>
-        }
+            </>
+
+
         </div>
-    )
+        )}
+        </>
+        )
 }
