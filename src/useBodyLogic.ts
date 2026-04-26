@@ -6,22 +6,21 @@ export function useBodyLogic(searchUserName: string) {
 
     const [reposUser, setRepoUsers] = useState<Repos[] | null>(null)
     const [weeks, setWeeks] = useState<ContributionWeek[]>([])
+    const [loading , setLoading] = useState<boolean>(false);
 
     useEffect(() => {
-        async function calendar() {
+        async function loadData() {
+            setLoading(true)
             const data = await fetchContributions(searchUserName)
             setWeeks(data)
+            const repos = await fetchRepos(searchUserName)
+            setRepoUsers(repos)
+            setLoading(false)
         }
-        calendar()
+        loadData()
     }, [searchUserName])
 
-    useEffect(()=>{
-        async function loadRepos() {
-            const data = await fetchRepos(searchUserName)
-            setRepoUsers(data)
-        }
-        loadRepos();
-    }, [searchUserName])
+
 
     const totalCommits = weeks.flatMap(week => week.contributionDays).reduce((sum, day) => sum + day.contributionCount, 0)
 
@@ -29,5 +28,6 @@ export function useBodyLogic(searchUserName: string) {
         reposUser,
         totalCommits,
         weeks,
+        loading,
     }
 }

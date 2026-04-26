@@ -16,6 +16,7 @@ function App() {
         reposUser,
         totalCommits,
         weeks,
+        loading,
     } = useBodyLogic(searchUserName)
 
   return (
@@ -32,6 +33,7 @@ function App() {
             reposUser={reposUser}
             totalCommits={totalCommits}
             weeks={weeks}
+            loading={loading}
         />
       </div>
   )
