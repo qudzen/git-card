@@ -1,4 +1,4 @@
-import type {ContributionWeek} from "./types.tsx";
+import type {ContributionWeek} from "../Shared/types.tsx";
 
 interface Props {
     totalCommits: number,

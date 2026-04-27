@@ -1,7 +1,7 @@
-import Header from './Header';
-import {useGithubSearch} from "./useGithubSearch.ts";
-import {Body} from "./Body.tsx";
-import {useBodyLogic} from "./useBodyLogic.ts";
+import Header from './Header Components/Header.tsx';
+import {useGithubSearch} from "./Header Components/useGithubSearch.ts";
+import {Body} from "./Body Components/Body.tsx";
+import {useBodyLogic} from "./Body Components/useBodyLogic.ts";
 function App() {
     const {
         searchUserName,
@@ -17,7 +17,7 @@ function App() {
         totalCommits,
         weeks,
         loading,
-    } = useBodyLogic(searchUserName)
+    } = useBodyLogic(results)
 
   return (
       <div className='flex flex-col min-h-screen'>

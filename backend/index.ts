@@ -79,4 +79,4 @@ app.get('/hints', async (req, res) => {
     const data = await response.json()
     res.json(data)
 })
-app.listen(3001, () => console.log('Server running on port 3001'))
+app.listen(3001, () => console.log('Shared running on port 3001'))

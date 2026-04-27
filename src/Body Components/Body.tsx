@@ -1,4 +1,4 @@
-import type {GithubUser, Repos, ContributionWeek} from "./types.tsx";
+import type {GithubUser, Repos, ContributionWeek} from "../Shared/types.tsx";
 import AvaNameBio from "./AvaNameBio.tsx";
 import Calendar from "./Calendar.tsx";
 import Reposs from "./Repos.tsx";
@@ -15,14 +15,14 @@ interface Props {
 export function Body({results, reposUser, totalCommits, weeks, loading}: Props){
 
     return (
-        <div className='flex flex-col items-center justify-center flex-grow text-white/30 gap-4 bg-gradient-to-r from-gray-900 to-gray-700 border-gray-600 rounded-4xl mt-2 mb-2 mx-3'>
+        <>
             {results === null ? (
-                <>
+                <div className='flex flex-col items-center justify-center flex-grow text-white/30 bg-gradient-to-r from-gray-900 to-gray-700 border-gray-600 rounded-4xl mt-2 mb-2 mx-3'>
                     <span className='text-8xl'>🔍</span>
                     <span className='text-2xl font-bold'>Search for a GitHub user</span>
-                </>
+                </div>
             ) : loading ? (
-                <div className='flex items-center justify-center flex-grow'>
+                <div className='flex items-center justify-center flex-grow bg-gradient-to-r from-gray-900 to-gray-700 border-gray-600 rounded-4xl mt-2 mb-2 mx-3'>
                     <div className='w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin'/>
                 </div>
             ) : (
@@ -36,6 +36,6 @@ export function Body({results, reposUser, totalCommits, weeks, loading}: Props){
                     </>
                 </div>
             )}
-        </div>
+        </>
         )
 }

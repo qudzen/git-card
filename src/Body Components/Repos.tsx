@@ -1,4 +1,4 @@
-import type {Repos} from "./types.tsx";
+import type {Repos} from "../Shared/types.tsx";
 
 interface Props {
     reposUser: Repos[] | null,

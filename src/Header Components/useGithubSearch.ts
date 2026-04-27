@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
-import type { GithubUser, SearchResponse } from './types'
-import { fetchUser, fetchHints } from './api'
+import type { GithubUser, SearchResponse } from '../Shared/types.tsx'
+import { fetchUser, fetchHints } from '../Shared/api.tsx'
 
 export function useGithubSearch() {
     const [searchUserName, setSearchUserName] = useState<string>('')
@@ -40,6 +40,7 @@ export function useGithubSearch() {
     const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === 'Enter') {
             search(searchUserName)
+            setHints(null)
         }
     }
 

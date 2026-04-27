@@ -1,5 +1,5 @@
-import './index.css'
-import type {SearchResponse} from "./types.tsx";
+import '../index.css'
+import type {SearchResponse} from "../Shared/types.tsx";
 
 interface Props {
     searchUserName: string

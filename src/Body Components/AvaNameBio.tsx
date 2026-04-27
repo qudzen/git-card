@@ -1,4 +1,4 @@
-import type {GithubUser} from "./types.tsx";
+import type {GithubUser} from "../Shared/types.tsx";
 
 interface Props {
     results: GithubUser,
