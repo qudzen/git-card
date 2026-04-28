@@ -12,30 +12,42 @@ export function useBodyLogic(user: GithubUser | null) {
 
     const calculateStreak = (weeksData: ContributionWeek[]) => {
         const allDays = weeksData.flatMap(week => week.contributionDays)
-        const activeDays: number[] = allDays.filter(day => day.contributionCount > 0).map(day => new Date(day.date).getTime()).sort()
+        const activeDays = allDays
+            .filter(day => day.contributionCount > 0)
+            .map(day => day.date)
+            .sort()
 
         if (activeDays.length === 0) {
             setCurrentStreak(0)
             setIsActive(false)
+            return
         }
         let streak = 1
-        let currentMax = 1
 
         for (let i = 0; i < activeDays.length; i++) {
-            const diffDays = (activeDays[i] - activeDays[i - 1]) / (1000 * 3600 * 24)
+            const prevDate = new Date(activeDays[i - 1])
+            const currDate = new Date(activeDays[i])
+            const diffDays = (currDate.getTime() - prevDate.getTime()) / (1000 * 3600 * 24)
+
             if (diffDays === 1) {
                 streak++
-                currentMax = Math.max(currentMax, streak)
             } else if (diffDays > 1) {
                 streak = 1
             }
         }
-        const today = new Date().setHours(0, 0, 0, 0)
-        const yesterday = today - 86400000
+        const now = new Date()
+        const todayStr = now.toISOString().split('T')[0]
+        const yesterdayStr = new Date(now.getTime() - 86400000).toISOString().split('T')[0]
 
-        const hasToday = activeDays.includes(today)
-        const hasYesterday = activeDays.includes(yesterday)
+
+        const hasToday = activeDays.includes(todayStr)
+        const hasYesterday = activeDays.includes(yesterdayStr)
+
+        console.log('🎯 Has today?', hasToday)
+        console.log('🎯 Has yesterday?', hasYesterday)
         const active = hasToday || hasYesterday
+        console.log('🔥 Active streak?', active)
+        console.log('📊 Final streak value:', streak)
 
         setCurrentStreak(active ? streak : 0)
         setIsActive(active)
