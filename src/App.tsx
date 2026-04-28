@@ -9,7 +9,8 @@ function App() {
         hints,
         onSearch,
         onKeyDown,
-        selectHint
+        selectHint,
+        handleLogoClick
     } = useGithubSearch()
 
     const {
@@ -17,6 +18,8 @@ function App() {
         totalCommits,
         weeks,
         loading,
+        currentStreak,
+        isActive
     } = useBodyLogic(results)
 
   return (
@@ -27,6 +30,7 @@ function App() {
             onSearch={onSearch}
             onKeyDown={onKeyDown}
             selectHint={selectHint}
+            handleLogoClick={handleLogoClick}
         />
         <Body
             results={results}
@@ -34,6 +38,8 @@ function App() {
             totalCommits={totalCommits}
             weeks={weeks}
             loading={loading}
+            currentStreak={currentStreak}
+            isActive={isActive}
         />
       </div>
   )

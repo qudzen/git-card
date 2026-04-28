@@ -7,6 +7,41 @@ export function useBodyLogic(user: GithubUser | null) {
     const [reposUser, setRepoUsers] = useState<Repos[] | null>(null)
     const [weeks, setWeeks] = useState<ContributionWeek[]>([])
     const [loading , setLoading] = useState<boolean>(false);
+    const [currentStreak, setCurrentStreak] = useState<number>(0);
+    const [isActive, setIsActive] = useState<boolean>(false);
+
+    const calculateStreak = (weeksData: ContributionWeek[]) => {
+        const allDays = weeksData.flatMap(week => week.contributionDays)
+        const activeDays: number[] = allDays.filter(day => day.contributionCount > 0).map(day => new Date(day.date).getTime()).sort()
+
+        if (activeDays.length === 0) {
+            setCurrentStreak(0)
+            setIsActive(false)
+        }
+        let streak = 1
+        let currentMax = 1
+
+        for (let i = 0; i < activeDays.length; i++) {
+            const diffDays = (activeDays[i] - activeDays[i - 1]) / (1000 * 3600 * 24)
+            if (diffDays === 1) {
+                streak++
+                currentMax = Math.max(currentMax, streak)
+            } else if (diffDays > 1) {
+                streak = 1
+            }
+        }
+        const today = new Date().setHours(0, 0, 0, 0)
+        const yesterday = today - 86400000
+
+        const hasToday = activeDays.includes(today)
+        const hasYesterday = activeDays.includes(yesterday)
+        const active = hasToday || hasYesterday
+
+        setCurrentStreak(active ? streak : 0)
+        setIsActive(active)
+    }
+
+
 
     useEffect(() => {
         if (!user) {
@@ -24,6 +59,7 @@ export function useBodyLogic(user: GithubUser | null) {
                 ])
                 setRepoUsers(reposData)
                 setWeeks(weeksData)
+                calculateStreak(weeksData)
             }finally {
                 setLoading(false)
             }
@@ -36,10 +72,14 @@ export function useBodyLogic(user: GithubUser | null) {
     const totalCommits = weeks?.flatMap(week => week.contributionDays)
         ?.reduce((sum, day) => sum + day.contributionCount, 0) ?? 0
 
+
+
     return {
         reposUser,
         totalCommits,
         weeks,
         loading,
+        currentStreak,
+        isActive,
     }
 }

@@ -10,9 +10,11 @@ interface Props {
     totalCommits: number,
     weeks: ContributionWeek[],
     loading: boolean,
+    currentStreak: number,
+    isActive: boolean,
 
 }
-export function Body({results, reposUser, totalCommits, weeks, loading}: Props){
+export function Body({results, reposUser, totalCommits, weeks, loading, currentStreak, isActive}: Props){
 
     return (
         <>
@@ -30,7 +32,7 @@ export function Body({results, reposUser, totalCommits, weeks, loading}: Props){
                     <>
                         <div className='grid grid-rows-[1fr_1fr] mt-3 mx-3'>
                             <AvaNameBio results={results}/>
-                            <Calendar totalCommits={totalCommits} weeks={weeks}/>
+                            <Calendar totalCommits={totalCommits} weeks={weeks} currentStreak={currentStreak} isActive={isActive}/>
                         </div>
                         <Reposs reposUser={reposUser}/>
                     </>

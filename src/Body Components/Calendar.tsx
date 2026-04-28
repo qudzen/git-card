@@ -3,13 +3,15 @@ import type {ContributionWeek} from "../Shared/types.tsx";
 interface Props {
     totalCommits: number,
     weeks: ContributionWeek[],
+    currentStreak: number,
+    isActive: boolean,
 }
 
-export default function Calendar({totalCommits, weeks}: Props) {
+export default function Calendar({totalCommits, weeks, currentStreak, isActive}: Props) {
     return (
         <div className='mt-15'>
-            <div className='flex justify-between items-center px-2 mx-20'>
-                <span className='text-white/50 text-sm'>Contribution activity</span>
+            <div className='flex justify-between items-center px-2 mx-20 flex-row'>
+                <span className='text-white/50 text-sm flex flex-row gap-4'>Contribution activity {isActive ? <div>{currentStreak}</div> : <div>Нет серии</div>}</span>
                 <span className='text-white/70 font-bold'>{totalCommits} contributions this year</span>
             </div>
             <div className='flex gap-1 justify-center mt-5'>

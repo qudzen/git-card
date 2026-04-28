@@ -7,6 +7,7 @@ interface Props {
     onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void
     onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
     selectHint: (login: string) => void
+    handleLogoClick: () => void
 }
 
 function Header(
@@ -15,7 +16,8 @@ function Header(
         hints,
         onSearch,
         onKeyDown,
-        selectHint
+        selectHint,
+        handleLogoClick
     }: Props
 ) {
 
@@ -26,7 +28,7 @@ function Header(
         <>
             <div className='bg-gradient-to-r from-gray-900 to-gray-700 shadow-lg relative'>
                 <div className='flex justify-between items-center px-8 py-4 max-w-7xl mx-auto'>
-                    <h1 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent'>
+                    <h1 className='text-4xl md:text-5xl font-bold bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent' onClick={handleLogoClick}>
                         Git Card
                     </h1>
                     <div className='relative'>

@@ -49,6 +49,9 @@ export function useGithubSearch() {
         search(login)
         setHints(null)
     }
+    const handleLogoClick = () => {
+        window.location.reload()
+    }
 
     return {
         searchUserName,
@@ -56,6 +59,7 @@ export function useGithubSearch() {
         hints,
         onSearch,
         onKeyDown,
-        selectHint
+        selectHint,
+        handleLogoClick,
     }
 }
