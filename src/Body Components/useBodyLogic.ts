@@ -43,11 +43,7 @@ export function useBodyLogic(user: GithubUser | null) {
         const hasToday = activeDays.includes(todayStr)
         const hasYesterday = activeDays.includes(yesterdayStr)
 
-        console.log('🎯 Has today?', hasToday)
-        console.log('🎯 Has yesterday?', hasYesterday)
         const active = hasToday || hasYesterday
-        console.log('🔥 Active streak?', active)
-        console.log('📊 Final streak value:', streak)
 
         setCurrentStreak(active ? streak : 0)
         setIsActive(active)
