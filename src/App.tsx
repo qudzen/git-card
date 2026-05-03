@@ -2,6 +2,7 @@ import Header from './Header Components/Header.tsx';
 import {useGithubSearch} from "./Header Components/useGithubSearch.ts";
 import {Body} from "./Body Components/Body.tsx";
 import {useBodyLogic} from "./Body Components/useBodyLogic.ts";
+import {useTheme} from "./useTheme.ts";
 function App() {
     const {
         searchUserName,
@@ -22,6 +23,11 @@ function App() {
         isActive
     } = useBodyLogic(results)
 
+    const {
+        theme,
+        toggleTheme,
+    } = useTheme()
+
   return (
       <div className='flex flex-col min-h-screen'>
         <Header
@@ -31,6 +37,8 @@ function App() {
             onKeyDown={onKeyDown}
             selectHint={selectHint}
             handleLogoClick={handleLogoClick}
+            theme={theme}
+            toggleTheme={toggleTheme}
         />
         <Body
             results={results}
