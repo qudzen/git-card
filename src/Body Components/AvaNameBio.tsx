@@ -8,11 +8,11 @@ export default function AvaNameBio({results}: Props) {
         <div className='flex items-center gap-4 relative'>
             <img src={results.avatar_url} className='rounded-full object-cover object-center self-start h-72 mt-9 mx-9 '/>
             <div className='flex flex-col'>
-                <div className='font-bold text-3xl text-white/50 italic absolute -mt-8'>
+                <div className='font-bold text-3xl text-gray-500 dark:text-white/50 italic absolute -mt-8'>
                     {results.name}
                 </div>
                 <div className='font-bold text-5xl mr-9'>
-                    <a href={results.html_url} target='_blank' rel='noreferrer' className='font-bold text-5xl mr-9 text-white no-underline'>
+                    <a href={results.html_url} target='_blank' rel='noreferrer' className='font-bold text-5xl mr-9 text-gray-700 dark:text-white no-underline'>
                         {results.login}
                     </a>
                 </div>

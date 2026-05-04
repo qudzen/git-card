@@ -27,7 +27,7 @@ export default function Calendar({totalCommits, weeks, currentStreak, isActive}:
                         {week.contributionDays.map(day => (
                             <div
                                 key={day.date}
-                                className={`w-3 h-3 rounded-sm ${day.contributionCount === 0 ? 'bg-gray-800' : day.contributionCount < 3 ? 'bg-purple-900' : day.contributionCount < 6 ? 'bg-purple-700' : 'bg-purple-500'}`}
+                                className={`w-3 h-3 rounded-sm ${day.contributionCount === 0 ? 'bg-gray-200 dark:bg-gray-900' : day.contributionCount < 3 ? 'bg-purple-700 dark:bg-purple-900' : day.contributionCount < 6 ? 'bg-purple-500 dark:bg-purple-700' : 'bg-purple-300 dark:bg-purple-500'}`}
                             />
                         ))}
                     </div>
