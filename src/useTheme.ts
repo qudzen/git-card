@@ -11,7 +11,7 @@ export function useTheme() {
         }
     }, [theme]);
 
-    const toggleTheme = (event) => {
+    const toggleTheme = () => {
         if (theme === "dark") {setTheme("light");}
         else setTheme("dark");
     }

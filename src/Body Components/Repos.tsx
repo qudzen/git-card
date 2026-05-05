@@ -7,6 +7,7 @@ interface Props {
 export default function Reposs({reposUser}: Props) {
     return (
         <div>
+            <h1 className='mt-3 mb-3 font-bold text-2xl'>Repositories:</h1>
             {reposUser !== null && Array.isArray(reposUser) && reposUser.map(repo => (
                 <div key={repo.name} className='bg-gray-200 dark:bg-white/5 rounded-xl p-3 flex flex-col gap-1 hover:bg-gray-300 dark:hover:bg-white/10 transition-colors cursor-pointer mb-1 items-center'>
                     <div className='font-bold text-sm truncate'>{repo.name}</div>
