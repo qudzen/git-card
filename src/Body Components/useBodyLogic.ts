@@ -8,7 +8,7 @@ export function useBodyLogic(user: GithubUser | null) {
     const [weeks, setWeeks] = useState<ContributionWeek[]>([])
     const [loading , setLoading] = useState<boolean>(false);
     const [currentStreak, setCurrentStreak] = useState<number>(0);
-    const [isActive, setIsActive] = useState<boolean>(false);
+    const [isActive, setIsActive] = useState<boolean>(false);;
 
     const calculateStreak = (weeksData: ContributionWeek[]) => {
         const allDays = weeksData.flatMap(week => week.contributionDays)

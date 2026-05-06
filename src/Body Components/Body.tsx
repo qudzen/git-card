@@ -15,7 +15,6 @@ interface Props {
 
 }
 export function Body({results, reposUser, totalCommits, weeks, loading, currentStreak, isActive}: Props){
-
     return (
         <>
             {results === null ? (
