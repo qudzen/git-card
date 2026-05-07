@@ -7,18 +7,18 @@ interface Props {
 export default function AvaNameBio({results}: Props) {
     const [imgError, setImgError] = useState<boolean>(false)
     return (
-        <div className='grid grid-cols-[auto_200px_1fr] items-center gap-6 p-6'>
+        <div className='grid grid-cols-1 md:grid-cols-[auto_200px_1fr] items-center gap-4 md:gap-6 p-4 md:p-6'>
 
             <div className='flex-shrink-0'>
                 {imgError ? (
-                    <div className='rounded-full h-72 w-72 bg-gray-700 flex items-center justify-center text-6xl'>
+                    <div className='rounded-full  h-32 w-32 md:h-72 md:w-72 bg-gray-700 flex items-center justify-center text-6xl'>
                         {results.login[0].toUpperCase()}
                     </div>
                 ) : (
                     <img
                         src={results.avatar_url}
                         onError={() => setImgError(true)}
-                        className='rounded-full object-cover object-center h-72 w-72'
+                        className='rounded-full object-cover object-center  h-32 w-32 md:h-72 md:w-72'
                     />
                 )}
             </div>

@@ -18,14 +18,12 @@ export async function fetchContributions (searchText: string):Promise<Contributi
     const response = await fetch('http://localhost:3001/contributions?username=' + searchText)
     const data = await response.json()
     if (data.errors) {
-        console.error('GraphQL errors:', data.errors)
         return []
     }
 
     const weeks = data?.data?.user?.contributionsCollection?.contributionCalendar?.weeks
 
     if (!weeks) {
-        console.warn('No weeks data for user:', searchText)
         return []
     }
 
