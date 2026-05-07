@@ -22,7 +22,7 @@ export default function Calendar({totalCommits, weeks, currentStreak, isActive}:
                         <span className='text-gray-700 dark:text-white/70 font-bold text-sm md:text-base'>{totalCommits} contributions this year</span>
             </div>
             <div className='overflow-x-auto pb-2 mt-3'>
-                <div className='inline-flex gap-1 min-w-max px-2'>
+                <div className='inline-flex gap-1 min-w-max px-2 md:ml-15'>
                     {weeks.map((week, weekIndex) => (
                         <div key={weekIndex} className='flex flex-col gap-1'>
                             {week.contributionDays.map(day => (
