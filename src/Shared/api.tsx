@@ -1,13 +1,13 @@
 import type {ContributionWeek, GithubUser, SearchResponse, Repos} from './types.tsx'
 
 export async function fetchUser(searchText: string):Promise<GithubUser> {
-    const response = await fetch('http://localhost:3001/user?username=' + searchText)
+    const response = await fetch('/api/user?username=' + searchText)
     const data = await response.json()
     return data
 }
 
 export async function fetchHints(searchText: string):Promise<SearchResponse>  {
-    const response = await fetch('http://localhost:3001/hints?username=' + searchText)
+    const response = await fetch('/api/hints?username=' + searchText)
     console.log('Rate limit remaining:', response.headers.get('x-ratelimit-remaining'))
     console.log('Rate limit reset:', response.headers.get('x-ratelimit-reset'))
     const data = await response.json()
@@ -15,7 +15,7 @@ export async function fetchHints(searchText: string):Promise<SearchResponse>  {
 }
 
 export async function fetchContributions (searchText: string):Promise<ContributionWeek[]>  {
-    const response = await fetch('http://localhost:3001/contributions?username=' + searchText)
+    const response = await fetch('/api/contributions?username=' + searchText)
     const data = await response.json()
     if (data.errors) {
         return []
@@ -31,7 +31,7 @@ export async function fetchContributions (searchText: string):Promise<Contributi
 }
 
 export async function fetchRepos (searchText: string):Promise<Repos[] | null> {
-    const response = await fetch('http://localhost:3001/repos?username=' + searchText)
+    const response = await fetch('/api/repos?username=' + searchText)
     if (!response.ok) return null
     const data = await response.json()
     return data
