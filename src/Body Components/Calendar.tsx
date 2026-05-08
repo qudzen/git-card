@@ -11,7 +11,7 @@ interface Props {
 export default function Calendar({totalCommits, weeks, currentStreak, isActive}: Props) {
     return (
         <div className='mt-8 md:mt-15'>
-            <div className='flex flex-col md:flex-row justify-between items-center gap-2 px-2 mx-2 md:mx-4'>
+            <div className='flex flex-col md:flex-row justify-between items-center px-2 mx-2 md:mx-16'>
                 <span className='text-gray-700 dark:text-white/50 text-sm flex flex-row gap-2'>
                     Contribution activity:
                     {isActive ?
