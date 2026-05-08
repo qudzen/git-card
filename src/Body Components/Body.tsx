@@ -29,7 +29,7 @@ export function Body({results, reposUser, totalCommits, weeks, loading, currentS
             ) : (
                 <div className='grid grid-cols-1 lg:grid-cols-[3fr_1.5fr] bg-gray-100 dark:bg-gray-800 border-gray-600 rounded-4xl text-gray-700 dark:text-white mt-2 mb-2 mx-3 flex-grow shadow-lg'>
                     <>
-                        <div className='grid grid-rows-[1fr_1fr] mt-3 mx-3 min-w-0'>
+                        <div className='grid grid-rows-[auto_1fr] mt-3 mx-3 min-w-0'>
                             <AvaNameBio results={results}/>
                             <div className='min-w-0 overflow-hiddenq'>
                                 <Calendar totalCommits={totalCommits} weeks={weeks} currentStreak={currentStreak} isActive={isActive}/>

@@ -7,7 +7,7 @@ interface Props {
 export default function AvaNameBio({results}: Props) {
     const [imgError, setImgError] = useState<boolean>(false)
     return (
-        <div className='grid grid-cols-1 md:grid-cols-[auto_200px_1fr] items-center gap-4 md:gap-6 p-4 md:p-6'>
+        <div className='grid grid-cols-[auto_1fr] md:grid-cols-[auto_200px_1fr] items-center gap-4 md:gap-6 p-4 md:p-6'>
 
             <div className='flex-shrink-0'>
                 {imgError ? (
@@ -32,7 +32,7 @@ export default function AvaNameBio({results}: Props) {
                 </a>
             </div>
 
-            <div className='min-w-0'>
+            <div className='min-w-0 col-span-2 md:col-span-1'>
                 {results.bio !== null ?
                     <div className='font-bold line-clamp-4'>{results.bio}</div>
                     :
