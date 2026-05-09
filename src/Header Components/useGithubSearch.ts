@@ -6,7 +6,6 @@ export function useGithubSearch() {
     const [searchUserName, setSearchUserName] = useState<string>('')
     const [results, setResults] = useState<GithubUser | null>(null)
     const [hints, setHints] = useState<SearchResponse | null>(null)
-    const timerRef = useRef<number | null>(null)
 
     const search = async (searchText: string) => {
         const data: GithubUser = await fetchUser(searchText)
@@ -24,17 +23,13 @@ export function useGithubSearch() {
         const searchText = event.target.value
         setSearchUserName(searchText)
 
-        if (timerRef.current) clearTimeout(timerRef.current)
-
         if (searchText.trim() === '') {
             setResults(null)
             setHints(null)
             return
         }
 
-        timerRef.current = setTimeout(() => {
-            searchHints(searchText)
-        }, 300)
+        searchHints(searchText)
     }
 
     const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
