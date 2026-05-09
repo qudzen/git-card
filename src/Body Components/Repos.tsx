@@ -7,9 +7,9 @@ interface Props {
 export default function Reposs({reposUser}: Props) {
     return (
         <div>
-            <h1 className='mt-3 mb-3 font-bold text-2xl'>Repositories:</h1>
+            <h1 className='mx-4 mt-3 mb-3 font-bold text-2xl'>Repositories:</h1>
             {reposUser !== null && Array.isArray(reposUser) && reposUser.map(repo => (
-                <div key={repo.name} className='bg-gray-200 dark:bg-white/5 rounded-xl p-3 flex flex-col gap-1 hover:bg-gray-300 dark:hover:bg-white/10 transition-colors cursor-pointer mb-1 items-center'>
+                <div key={repo.name} className='bg-gray-200 dark:bg-white/5 rounded-xl p-3 flex flex-col gap-1 hover:bg-gray-300 dark:hover:bg-white/10 transition-colors cursor-pointer mb-1 items-center mx-2 mb-2 min-h-max'>
                     <div className='font-bold text-sm truncate'>{repo.name}</div>
                     <div className='text-gray-600 dark:text-white/50 text-xs line-clamp-2'>{repo.description}</div>
                     <div className='flex gap-3 text-xs text-gray-600 dark:text-white/40 mt-1'>
