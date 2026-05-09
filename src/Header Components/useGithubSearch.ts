@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import type { GithubUser, SearchResponse } from '../Shared/types.tsx'
 import { fetchUser, fetchHints } from '../Shared/api.tsx'
 
