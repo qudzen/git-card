@@ -11,7 +11,8 @@ function App() {
         onSearch,
         onKeyDown,
         selectHint,
-        handleLogoClick
+        handleLogoClick,
+        hintsRef
     } = useGithubSearch()
 
     const {
@@ -39,6 +40,7 @@ function App() {
             handleLogoClick={handleLogoClick}
             theme={theme}
             toggleTheme={toggleTheme}
+            hintsRef={hintsRef}
         />
         <Body
             results={results}

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import type { GithubUser, SearchResponse } from '../Shared/types.tsx'
 import { fetchUser, fetchHints } from '../Shared/api.tsx'
 
@@ -6,12 +6,11 @@ export function useGithubSearch() {
     const [searchUserName, setSearchUserName] = useState<string>('')
     const [results, setResults] = useState<GithubUser | null>(null)
     const [hints, setHints] = useState<SearchResponse | null>(null)
+    const hintsRef = useRef<HTMLDivElement>(null)
 
     const search = async (searchText: string) => {
         const data: GithubUser = await fetchUser(searchText)
         setResults(data)
-        console.log(data)
-        console.log(searchText)
     }
 
     const searchHints = async (searchText: string) => {
@@ -48,6 +47,17 @@ export function useGithubSearch() {
         window.location.reload()
     }
 
+    useEffect(() => {
+        const handleClickOutside = (e: MouseEvent) => {
+            if (hintsRef.current && !hintsRef.current.contains(e.target as Node)) {
+                setHints(null)
+            }
+        }
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+
     return {
         searchUserName,
         results,
@@ -56,5 +66,6 @@ export function useGithubSearch() {
         onKeyDown,
         selectHint,
         handleLogoClick,
+        hintsRef
     }
 }

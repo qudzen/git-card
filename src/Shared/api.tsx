@@ -9,8 +9,6 @@ export async function fetchUser(searchText: string):Promise<GithubUser> {
 
 export async function fetchHints(searchText: string):Promise<SearchResponse>  {
     const response = await fetch(BASE_URL + '/api/hints?username=' + searchText)
-    console.log('Rate limit remaining:', response.headers.get('x-ratelimit-remaining'))
-    console.log('Rate limit reset:', response.headers.get('x-ratelimit-reset'))
     const data = await response.json()
     return data
 }

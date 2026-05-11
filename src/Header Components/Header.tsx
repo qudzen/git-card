@@ -10,6 +10,7 @@ interface Props {
     handleLogoClick: () => void
     theme: string
     toggleTheme: () => void
+    hintsRef: React.RefObject<HTMLDivElement>
 }
 
 function Header(
@@ -21,7 +22,8 @@ function Header(
         selectHint,
         handleLogoClick,
         theme,
-        toggleTheme
+        toggleTheme,
+        hintsRef,
     }: Props
 ) {
 
@@ -41,13 +43,13 @@ function Header(
                             <input
                                 className='bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-white border-gray-200 dark:border-gray-600 border-2 rounded-full px-6 py-3 w-full md:w-80 focus:outline-none focus:border-blue-500 focus:ring-2 focus:ring-blue-500 transition-all'
                                 type="search"
-                                placeholder="🔍 SearchInput GitHub user..."
+                                placeholder="🔍 Search GitHub user..."
                                 value={searchUserName}
                                 onChange = {onSearch}
                                 onKeyDown = {onKeyDown}
                             />
                             {hints && hints.items && hints.items.length > 0 && (
-                                <div className='absolute top-full left-0 w-80 mt-1 border-2 border-gray-100 dark:border-gray-600 rounded-lg bg-gray-200 dark:bg-gray-800 z-50 overflow-hidden shadow-xl'>
+                                <div ref={hintsRef} className='absolute top-full left-0 w-80 mt-1 border-2 border-gray-100 dark:border-gray-600 rounded-lg bg-gray-200 dark:bg-gray-800 z-50 overflow-hidden shadow-xl'>
                                     {hints.items.map(user => (
                                         <div onClick={() => {selectHint(user.login)}}
                                              key={user.login}
