@@ -10,7 +10,7 @@ interface Props {
     handleLogoClick: () => void
     theme: string
     toggleTheme: () => void
-    hintsRef: React.RefObject<HTMLDivElement>
+    hintsRef: React.RefObject<HTMLDivElement | null>
 }
 
 function Header(
