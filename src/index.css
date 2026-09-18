@@ -1,3 +1,58 @@
 @import "tailwindcss";
 
 @custom-variant dark (&:where(.dark, .dark *));
+
+@theme {
+    /* True-black surfaces for the dark theme */
+    --color-ink-950: #040405;
+    --color-ink-900: #0a0a0c;
+    --color-ink-800: #121216;
+    --color-ink-700: #1b1b21;
+    --color-ink-600: #26262e;
+    --color-ink-500: #36363f;
+
+    /* Accent ramp (violet -> indigo) */
+    --color-accent-200: #ddd6fe;
+    --color-accent-300: #c4b5fd;
+    --color-accent-400: #a78bfa;
+    --color-accent-500: #8b5cf6;
+    --color-accent-600: #7c3aed;
+    --color-accent-700: #6d28d9;
+    --color-accent-800: #5b21b6;
+}
+
+html {
+    scrollbar-gutter: stable;
+}
+
+body {
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* Organic theme transition: everything that changes colour fades together */
+*, *::before, *::after {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow, opacity;
+    transition-duration: 0.35s;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Slim, theme-aware scrollbars */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: #8b5cf6;
+    border-radius: 9999px;
+}
+.dark ::-webkit-scrollbar-thumb {
+    background: #26262e;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #7c3aed;
+}

@@ -30,7 +30,7 @@ function App() {
     } = useTheme()
 
   return (
-      <div className='flex flex-col min-h-screen dark:bg-gray-700'>
+      <div className='flex flex-col min-h-screen bg-slate-50 dark:bg-ink-950'>
         <Header
             searchUserName={searchUserName}
             hints={hints}

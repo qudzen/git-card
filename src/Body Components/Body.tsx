@@ -7,32 +7,31 @@ import Reposs from "./Repos.tsx";
 interface Props {
     results: GithubUser | null,
     reposUser: Repos[] | null,
-    totalCommits: number,
     weeks: ContributionWeek[],
     loading: boolean,
     currentStreak: number,
     isActive: boolean,
 
 }
-export function Body({results, reposUser, totalCommits, weeks, loading, currentStreak, isActive}: Props){
+export function Body({results, reposUser, weeks, loading, currentStreak, isActive}: Props){
     return (
         <>
             {results === null ? (
-                <div className='flex flex-col items-center justify-center flex-grow text-gray-400 dark:text-white/30 bg-gray-100 dark:bg-gray-800 rounded-4xl mt-2 mb-2 mx-3'>
+                <div className='flex flex-col items-center justify-center flex-grow text-slate-400 dark:text-white/30 mt-2 mb-2 mx-3'>
                     <span className='text-8xl'>🔍</span>
                     <span className='text-2xl font-bold'>Search for a GitHub user</span>
                 </div>
             ) : loading ? (
-                <div className='flex items-center justify-center flex-grow bg-gray-100 dark:bg-gray-800 rounded-4xl mt-2 mb-2 mx-3 shadow-lg'>
-                    <div className='w-16 h-16 border-4 border-purple-500 border-t-transparent rounded-full animate-spin'/>
+                <div className='flex items-center justify-center flex-grow bg-white dark:bg-ink-900 rounded-4xl mt-2 mb-2 mx-3 border border-slate-200 dark:border-ink-800 shadow-lg dark:shadow-none'>
+                    <div className='w-16 h-16 border-4 border-accent-500 border-t-transparent rounded-full animate-spin'/>
                 </div>
             ) : (
-                <div className='grid grid-cols-1 lg:grid-cols-[3fr_1.5fr] bg-gray-100 dark:bg-gray-800 border-gray-600 rounded-4xl text-gray-700 dark:text-white mt-2 mb-2 mx-3 flex-grow shadow-lg'>
+                <div className='grid grid-cols-1 lg:grid-cols-[3fr_1.5fr] text-slate-800 dark:text-white mt-2 mb-2 mx-3 flex-grow'>
                     <>
                         <div className='grid grid-rows-[auto_1fr] mt-3 mx-3 min-w-0'>
                             <AvaNameBio results={results}/>
                             <div className='min-w-0 overflow-hiddenq'>
-                                <Calendar totalCommits={totalCommits} weeks={weeks} currentStreak={currentStreak} isActive={isActive}/>
+                                <Calendar weeks={weeks} currentStreak={currentStreak} isActive={isActive}/>
                             </div>
                         </div>
                         <Reposs reposUser={reposUser}/>

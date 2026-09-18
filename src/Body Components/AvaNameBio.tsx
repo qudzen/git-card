@@ -11,23 +11,25 @@ export default function AvaNameBio({results}: Props) {
 
             <div className='flex-shrink-0'>
                 {imgError ? (
-                    <div className='rounded-full  h-32 w-32 md:h-72 md:w-72 bg-gray-700 flex items-center justify-center text-6xl'>
+                    <div className='rounded-full h-32 w-32 md:h-72 md:w-72 bg-gradient-to-br from-accent-600 to-indigo-500 flex items-center justify-center text-6xl font-extrabold text-white ring-4 ring-accent-500/30'>
                         {results.login[0].toUpperCase()}
                     </div>
                 ) : (
-                    <img
-                        src={results.avatar_url}
-                        onError={() => setImgError(true)}
-                        className='rounded-full object-cover object-center  h-32 w-32 md:h-72 md:w-72'
-                    />
+                    <div className='rounded-full p-1 bg-gradient-to-br from-accent-500 via-fuchsia-400 to-indigo-400'>
+                        <img
+                            src={results.avatar_url}
+                            onError={() => setImgError(true)}
+                            className='block rounded-full object-cover object-center h-32 w-32 md:h-72 md:w-72'
+                        />
+                    </div>
                 )}
             </div>
 
             <div className='flex flex-col relative ml-5 font-bold text-xs md:text-3xl lg:text-5xl truncate'>
-                <div className='font-bold text-2xl text-gray-500 dark:text-white/50 italic truncate'>
+                <div className='font-semibold text-2xl text-slate-500 dark:text-white/50 italic truncate'>
                     {results.name}
                 </div>
-                <a href={results.html_url} target='_blank' rel='noreferrer' className='font-bold text-4xl dark:text-white truncate'>
+                <a href={results.html_url} target='_blank' rel='noreferrer' className='font-bold text-4xl text-slate-900 dark:text-white hover:text-accent-500 dark:hover:text-accent-300 truncate transition-colors'>
                     {results.login}
                 </a>
             </div>
