@@ -1,9 +1,11 @@
 import type {ContributionWeek, GithubUser, SearchResponse, Repos} from './types.tsx'
 const BASE_URL = import.meta.env.VITE_API_URL || ''
 
-export async function fetchUser(searchText: string):Promise<GithubUser> {
-    const response = await fetch(BASE_URL + '/api/user?username=' + searchText)
+export async function fetchUser(searchText: string):Promise<GithubUser | null> {
+    const response = await fetch(BASE_URL + '/api/user?username=' + encodeURIComponent(searchText))
+    if (!response.ok) return null
     const data = await response.json()
+    if (!data || !data.login) return null
     return data
 }
 

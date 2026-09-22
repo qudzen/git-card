@@ -77,14 +77,8 @@ export function useBodyLogic(user: GithubUser | null) {
 
 
 
-    const totalCommits = weeks?.flatMap(week => week.contributionDays)
-        ?.reduce((sum, day) => sum + day.contributionCount, 0) ?? 0
-
-
-
     return {
         reposUser,
-        totalCommits,
         weeks,
         loading,
         currentStreak,

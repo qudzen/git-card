@@ -6,11 +6,18 @@ export function useGithubSearch() {
     const [searchUserName, setSearchUserName] = useState<string>('')
     const [results, setResults] = useState<GithubUser | null>(null)
     const [hints, setHints] = useState<SearchResponse | null>(null)
+    const [notFound, setNotFound] = useState<boolean>(false)
     const hintsRef = useRef<HTMLDivElement>(null)
 
     const search = async (searchText: string) => {
-        const data: GithubUser = await fetchUser(searchText)
-        setResults(data)
+        const data = await fetchUser(searchText)
+        if (data === null) {
+            setResults(null)
+            setNotFound(true)
+        } else {
+            setResults(data)
+            setNotFound(false)
+        }
     }
 
     const searchHints = async (searchText: string) => {
@@ -25,6 +32,7 @@ export function useGithubSearch() {
         if (searchText.trim() === '') {
             setResults(null)
             setHints(null)
+            setNotFound(false)
             return
         }
 
@@ -62,6 +70,7 @@ export function useGithubSearch() {
         searchUserName,
         results,
         hints,
+        notFound,
         onSearch,
         onKeyDown,
         selectHint,

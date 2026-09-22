@@ -11,5 +11,5 @@ export default async function user(req: VercelRequest, res: VercelResponse){
     })
 
     const data = await response.json()
-    res.json(data)
+    res.status(response.status).json(data)
 }

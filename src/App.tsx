@@ -8,6 +8,7 @@ function App() {
         searchUserName,
         results,
         hints,
+        notFound,
         onSearch,
         onKeyDown,
         selectHint,
@@ -17,7 +18,6 @@ function App() {
 
     const {
         reposUser,
-        totalCommits,
         weeks,
         loading,
         currentStreak,
@@ -45,11 +45,11 @@ function App() {
         <Body
             results={results}
             reposUser={reposUser}
-            totalCommits={totalCommits}
             weeks={weeks}
             loading={loading}
             currentStreak={currentStreak}
             isActive={isActive}
+            notFound={notFound}
         />
       </div>
   )
