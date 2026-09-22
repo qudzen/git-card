@@ -1,22 +1,27 @@
-import {useEffect, useState} from "react";
+import {useLayoutEffect, useState} from "react";
+
+export type Theme = "dark" | "light";
+
+const getInitialTheme = (): Theme => {
+    const saved = localStorage.getItem("theme");
+    if (saved === "dark" || saved === "light") return saved;
+    return "dark";
+};
 
 export function useTheme() {
-    const [theme, setTheme] = useState("dark");
-    useEffect(() => {
-        if (theme === "dark") {
-            document.documentElement.classList.add("dark");
-        }
-        else {
-            document.documentElement.classList.remove("dark");
-        }
+    const [theme, setTheme] = useState<Theme>(getInitialTheme);
+
+    useLayoutEffect(() => {
+        document.documentElement.classList.toggle("dark", theme === "dark");
+        localStorage.setItem("theme", theme);
     }, [theme]);
 
     const toggleTheme = () => {
-        if (theme === "dark") {setTheme("light");}
-        else setTheme("dark");
-    }
+        setTheme(theme === "dark" ? "light" : "dark");
+    };
+
     return {
         theme,
         toggleTheme,
-    }
+    };
 }
