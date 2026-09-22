@@ -30,9 +30,7 @@ export function useGithubSearch() {
         setSearchUserName(searchText)
 
         if (searchText.trim() === '') {
-            setResults(null)
             setHints(null)
-            setNotFound(false)
             return
         }
 
