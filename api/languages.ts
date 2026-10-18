@@ -1,0 +1,40 @@
+import type { VercelRequest, VercelResponse } from '@vercel/node'
+
+export default async function languages(req: VercelRequest, res: VercelResponse) {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    const { username } = req.query
+
+    const query = `
+        query($username: String!) {
+            user(login: $username) {
+                repositories(first: 100, ownerAffiliations: OWNER, orderBy: {field: STARGAZERS, direction: DESC}) {
+                    nodes {
+                        languages(first: 5, orderBy: {field: SIZE, direction: DESC}) {
+                            edges {
+                                size
+                                node {
+                                    name
+                                    color
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    `
+
+    const response = await fetch('https://api.github.com/graphql', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${process.env.GITHUB_TOKEN}`,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ query, variables: { username } })
+    })
+
+    const data = await response.json()
+    res.setHeader('X-RateLimit-Remaining', response.headers.get('X-RateLimit-Remaining') ?? '')
+    res.setHeader('X-RateLimit-Reset', response.headers.get('X-RateLimit-Reset') ?? '')
+    res.status(response.status).json(data)
+}

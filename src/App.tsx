@@ -8,11 +8,13 @@ function App() {
         searchUserName,
         results,
         hints,
-        notFound,
+        error,
+        hintsError,
         activeIndex,
         onSearch,
         onKeyDown,
         selectHint,
+        retrySearch,
         handleLogoClick,
         hintsRef
     } = useGithubSearch()
@@ -20,9 +22,12 @@ function App() {
     const {
         reposUser,
         weeks,
+        languages,
         loading,
         currentStreak,
-        isActive
+        isActive,
+        error: bodyError,
+        retry: retryBody
     } = useBodyLogic(results)
 
     const {
@@ -35,6 +40,7 @@ function App() {
         <Header
             searchUserName={searchUserName}
             hints={hints}
+            hintsError={hintsError}
             activeIndex={activeIndex}
             onSearch={onSearch}
             onKeyDown={onKeyDown}
@@ -48,10 +54,14 @@ function App() {
             results={results}
             reposUser={reposUser}
             weeks={weeks}
+            languages={languages}
             loading={loading}
             currentStreak={currentStreak}
             isActive={isActive}
-            notFound={notFound}
+            error={error}
+            retrySearch={retrySearch}
+            bodyError={bodyError}
+            retryBody={retryBody}
         />
       </div>
   )

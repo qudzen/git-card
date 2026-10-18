@@ -1,10 +1,11 @@
 import '../index.css'
-import type {SearchResponse} from "../Shared/types.tsx";
-import { FiSearch, FiMoon, FiSun } from 'react-icons/fi'
+import type {SearchResponse, ApiError} from "../Shared/types.tsx";
+import { FiSearch, FiMoon, FiSun, FiAlertCircle } from 'react-icons/fi'
 
 interface Props {
     searchUserName: string
     hints: SearchResponse | null
+    hintsError: ApiError | null
     activeIndex: number
     onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void
     onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
@@ -19,6 +20,7 @@ function Header(
     {
         searchUserName,
         hints,
+        hintsError,
         activeIndex,
         onSearch,
         onKeyDown,
@@ -52,19 +54,25 @@ function Header(
                                 onChange = {onSearch}
                                 onKeyDown = {onKeyDown}
                             />
-                            {hints && hints.items && hints.items.length > 0 && (
+                            {(hints && hints.items && hints.items.length > 0) || hintsError ? (
                                 <div ref={hintsRef} className='absolute top-full left-0 w-80 mt-2 border border-slate-200 dark:border-ink-700 rounded-2xl bg-white dark:bg-ink-900 z-50 overflow-hidden shadow-2xl shadow-black/20 dark:shadow-black/60'>
-                                    {hints.items.map((user, index) => (
-                                        <div onClick={() => {selectHint(user.login)}}
-                                             key={user.login}
-                                             data-hint-index={index}
-                                             className={`text-slate-700 dark:text-white/80 px-6 py-3 cursor-pointer transition-colors ${index === activeIndex ? 'bg-accent-500/10 text-accent-600 dark:text-accent-300' : 'hover:bg-accent-500/10 hover:text-accent-600 dark:hover:text-accent-300'}`}
-                                        >
-                                            {user.login}
+                                    {hintsError ? (
+                                        <div className='flex items-center gap-2 px-6 py-3 text-amber-600 dark:text-amber-300 text-sm font-semibold'>
+                                            <FiAlertCircle /> {hintsError.message}
                                         </div>
-                                    ))}
+                                    ) : (
+                                        hints?.items.map((user, index) => (
+                                            <div onClick={() => {selectHint(user.login)}}
+                                                 key={user.login}
+                                                 data-hint-index={index}
+                                                 className={`text-slate-700 dark:text-white/80 px-6 py-3 cursor-pointer transition-colors ${index === activeIndex ? 'bg-accent-500/10 text-accent-600 dark:text-accent-300' : 'hover:bg-accent-500/10 hover:text-accent-600 dark:hover:text-accent-300'}`}
+                                            >
+                                                {user.login}
+                                            </div>
+                                        ))
+                                    )}
                                 </div>
-                            )}
+                            ) : null}
                         </div>
                         <button onClick={toggleTheme} className='p-2.5 rounded-full border border-slate-200 dark:border-ink-700 hover:bg-slate-100 dark:hover:bg-ink-800 hover:scale-105 active:scale-95 transition-all text-slate-500 dark:text-white/70'>
                             {theme === 'dark' ? <FiMoon size={20}/> : <FiSun size={20}/>}

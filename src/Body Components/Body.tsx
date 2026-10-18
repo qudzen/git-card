@@ -1,28 +1,30 @@
-import type {GithubUser, Repos, ContributionWeek} from "../Shared/types.tsx";
+import type {GithubUser, Repos, ContributionWeek, ApiError, LanguageStat} from "../Shared/types.tsx";
 import AvaNameBio from "./AvaNameBio.tsx";
 import Calendar from "./Calendar.tsx";
 import Reposs from "./Repos.tsx";
-import { FiSearch, FiUserX } from 'react-icons/fi'
+import Languages from "./Languages.tsx";
+import ErrorState from "./ErrorState.tsx";
+import { FiSearch } from 'react-icons/fi'
 
 
 interface Props {
     results: GithubUser | null,
     reposUser: Repos[] | null,
     weeks: ContributionWeek[],
+    languages: LanguageStat[],
     loading: boolean,
     currentStreak: number,
     isActive: boolean,
-    notFound: boolean,
-
+    error: ApiError | null,
+    retrySearch: () => void,
+    bodyError: ApiError | null,
+    retryBody: () => void,
 }
-export function Body({results, reposUser, weeks, loading, currentStreak, isActive, notFound}: Props){
+export function Body({results, reposUser, weeks, languages, loading, currentStreak, isActive, error, retrySearch, bodyError, retryBody}: Props){
     return (
         <>
-            {notFound ? (
-                <div className='flex flex-col items-center justify-center flex-grow text-slate-400 dark:text-white/30 mt-2 mb-2 mx-3'>
-                    <span className='text-8xl'><FiUserX /></span>
-                    <span className='text-2xl font-bold'>User not found</span>
-                </div>
+            {error ? (
+                <ErrorState error={error} onRetry={retrySearch} />
             ) : results === null ? (
                 <div className='flex flex-col items-center justify-center flex-grow text-slate-400 dark:text-white/30 mt-2 mb-2 mx-3'>
                     <span className='text-8xl'><FiSearch /></span>
@@ -34,6 +36,11 @@ export function Body({results, reposUser, weeks, loading, currentStreak, isActiv
                 </div>
             ) : (
                 <div className='grid grid-cols-1 lg:grid-cols-[3fr_1.5fr] text-slate-800 dark:text-white mt-2 mb-2 mx-3 flex-grow'>
+                    {bodyError && (
+                        <div className='col-span-full'>
+                            <ErrorState error={bodyError} onRetry={retryBody} compact />
+                        </div>
+                    )}
                     <>
                         <div className='grid grid-rows-[auto_1fr] mt-3 mx-3 min-w-0'>
                             <AvaNameBio results={results}/>
@@ -42,6 +49,7 @@ export function Body({results, reposUser, weeks, loading, currentStreak, isActiv
                             </div>
                         </div>
                         <Reposs reposUser={reposUser}/>
+                        <Languages languages={languages}/>
                     </>
                 </div>
             )}
