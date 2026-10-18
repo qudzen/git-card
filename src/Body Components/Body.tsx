@@ -2,6 +2,7 @@ import type {GithubUser, Repos, ContributionWeek} from "../Shared/types.tsx";
 import AvaNameBio from "./AvaNameBio.tsx";
 import Calendar from "./Calendar.tsx";
 import Reposs from "./Repos.tsx";
+import { FiSearch, FiUserX } from 'react-icons/fi'
 
 
 interface Props {
@@ -19,12 +20,12 @@ export function Body({results, reposUser, weeks, loading, currentStreak, isActiv
         <>
             {notFound ? (
                 <div className='flex flex-col items-center justify-center flex-grow text-slate-400 dark:text-white/30 mt-2 mb-2 mx-3'>
-                    <span className='text-8xl'>😕</span>
+                    <span className='text-8xl'><FiUserX /></span>
                     <span className='text-2xl font-bold'>User not found</span>
                 </div>
             ) : results === null ? (
                 <div className='flex flex-col items-center justify-center flex-grow text-slate-400 dark:text-white/30 mt-2 mb-2 mx-3'>
-                    <span className='text-8xl'>🔍</span>
+                    <span className='text-8xl'><FiSearch /></span>
                     <span className='text-2xl font-bold'>Search for a GitHub user</span>
                 </div>
             ) : loading ? (

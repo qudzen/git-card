@@ -26,7 +26,7 @@ export default function Calendar({weeks, currentStreak, isActive}: Props) {
                             {week.contributionDays.map(day => (
                                 <div
                                     key={day.date}
-                                    className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-full ${day.contributionCount === 0 ? 'bg-slate-200 dark:bg-ink-700' : day.contributionCount < 3 ? 'bg-accent-300 dark:bg-accent-800' : day.contributionCount < 6 ? 'bg-accent-500 dark:bg-accent-600' : 'bg-accent-700 dark:bg-accent-400'}`}
+                                    className={`w-2.5 h-2.5 md:w-3 md:h-3 rounded-sm ${day.contributionCount === 0 ? 'bg-slate-200 dark:bg-ink-700' : day.contributionCount < 3 ? 'bg-accent-300 dark:bg-accent-800' : day.contributionCount < 6 ? 'bg-accent-500 dark:bg-accent-600' : 'bg-accent-700 dark:bg-accent-400'}`}
                                 />
                             ))}
                         </div>

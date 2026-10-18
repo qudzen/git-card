@@ -1,5 +1,6 @@
 import '../index.css'
 import type {SearchResponse} from "../Shared/types.tsx";
+import { FiSearch, FiMoon, FiSun } from 'react-icons/fi'
 
 interface Props {
     searchUserName: string
@@ -42,10 +43,11 @@ function Header(
 
                     <div className='flex items-center gap-4'>
                         <div className='relative '>
+                            <FiSearch className='absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-white/40 pointer-events-none' />
                             <input
-                                className='bg-white dark:bg-ink-900 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-white/40 border-slate-200 dark:border-ink-700 border rounded-full px-6 py-3 w-full md:w-80 focus:outline-none focus:border-accent-500 focus:ring-4 focus:ring-accent-500/20 shadow-sm dark:shadow-none transition-all'
+                                className='bg-white dark:bg-ink-900 text-slate-800 dark:text-white placeholder-slate-400 dark:placeholder-white/40 border-slate-200 dark:border-ink-700 border rounded-full pl-11 pr-6 py-3 w-full md:w-80 focus:outline-none focus:border-accent-500 focus:ring-4 focus:ring-accent-500/20 shadow-sm dark:shadow-none transition-all'
                                 type="search"
-                                placeholder="🔍 Search GitHub user..."
+                                placeholder="Search GitHub user..."
                                 value={searchUserName}
                                 onChange = {onSearch}
                                 onKeyDown = {onKeyDown}
@@ -64,8 +66,8 @@ function Header(
                                 </div>
                             )}
                         </div>
-                        <button onClick={toggleTheme} className='p-2.5 rounded-full border border-slate-200 dark:border-ink-700 hover:bg-slate-100 dark:hover:bg-ink-800 hover:scale-105 active:scale-95 transition-all'>
-                            {theme === 'dark' ? '🌙' : '☀️'}
+                        <button onClick={toggleTheme} className='p-2.5 rounded-full border border-slate-200 dark:border-ink-700 hover:bg-slate-100 dark:hover:bg-ink-800 hover:scale-105 active:scale-95 transition-all text-slate-500 dark:text-white/70'>
+                            {theme === 'dark' ? <FiMoon size={20}/> : <FiSun size={20}/>}
                         </button>
                     </div>
 

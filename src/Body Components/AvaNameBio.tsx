@@ -1,5 +1,6 @@
 import type {GithubUser} from "../Shared/types.tsx";
 import {useState} from "react";
+import { FiUsers, FiUserPlus, FiFolder } from 'react-icons/fi'
 
 interface Props {
     results: GithubUser,
@@ -39,9 +40,9 @@ export default function AvaNameBio({results}: Props) {
                     <div className='font-bold line-clamp-4'>{results.bio}</div>
                     :
                     <div className='flex flex-col gap-2 text-2xl font-bold'>
-                        <span>👥 {results.followers} followers</span>
-                        <span>➕ {results.following} following</span>
-                        <span>📁 {results.public_repos} repos</span>
+                        <span className='flex items-center gap-2'><FiUsers /> {results.followers} followers</span>
+                        <span className='flex items-center gap-2'><FiUserPlus /> {results.following} following</span>
+                        <span className='flex items-center gap-2'><FiFolder /> {results.public_repos} repos</span>
                     </div>
                 }
             </div>

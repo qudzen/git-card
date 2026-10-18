@@ -1,4 +1,5 @@
 import type {Repos} from "../Shared/types.tsx";
+import { FiStar } from 'react-icons/fi'
 
 interface Props {
     reposUser: Repos[] | null,
@@ -15,7 +16,7 @@ export default function Reposs({reposUser}: Props) {
                         <div className='text-slate-600 dark:text-white/50 text-xs line-clamp-2'>{repo.description}</div>
                         <div className='flex gap-3 text-xs text-slate-500 dark:text-white/40 mt-1'>
                             <span>{repo.language}</span>
-                            <span>⭐ {repo.stargazers_count}</span>
+                            <span className='flex items-center gap-1'><FiStar /> {repo.stargazers_count}</span>
                         </div>
                     </div>
                 </a>
