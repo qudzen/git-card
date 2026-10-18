@@ -9,18 +9,22 @@ interface Props {
 
 export default function Calendar({weeks, currentStreak, isActive}: Props) {
     return (
-        <div className='mt-8 md:mt-15'>
-            <div className='flex flex-col md:flex-row justify-between items-center gap-y-1 px-2 md:ml-15'>
-                <span className='text-slate-600 dark:text-white/50 text-sm flex flex-row gap-2 items-center'>
-                    Contribution activity:
-                    {isActive ?
-                        <span className="text-accent-500 font-bold flex flex-row gap-1 items-center"><FaFire size={20}/>{currentStreak}</span>
-                        :
-                        <span className="text-slate-400 dark:text-white/30"><FaFire size={20}/></span>}
-                </span>
+        <div className='bg-white dark:bg-ink-900 border border-slate-200 dark:border-ink-800 rounded-2xl shadow-lg dark:shadow-none p-6'>
+            <div className='flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2 mb-4'>
+                <h2 className='font-bold text-lg text-slate-900 dark:text-white'>Contribution activity</h2>
+                {isActive ? (
+                    <span className='flex items-center gap-1.5 text-accent-500 font-bold text-sm'>
+                        <FaFire size={18}/> {currentStreak} day streak
+                    </span>
+                ) : (
+                    <span className='flex items-center gap-1.5 text-slate-400 dark:text-white/30 text-sm'>
+                        <FaFire size={18}/> no active streak
+                    </span>
+                )}
             </div>
-            <div className='overflow-x-auto pb-2 mt-3'>
-                <div className='inline-flex gap-1 min-w-max px-2 md:ml-15'>
+
+            <div className='overflow-x-auto pb-2'>
+                <div className='inline-flex gap-1 min-w-max'>
                     {weeks.map((week, weekIndex) => (
                         <div key={weekIndex} className='flex flex-col gap-1'>
                             {week.contributionDays.map(day => (
@@ -32,6 +36,15 @@ export default function Calendar({weeks, currentStreak, isActive}: Props) {
                         </div>
                     ))}
                 </div>
+            </div>
+
+            <div className='flex items-center justify-end gap-1.5 mt-3 text-xs text-slate-500 dark:text-white/40'>
+                <span>Less</span>
+                <span className='w-3 h-3 rounded-sm bg-slate-200 dark:bg-ink-700' />
+                <span className='w-3 h-3 rounded-sm bg-accent-300 dark:bg-accent-800' />
+                <span className='w-3 h-3 rounded-sm bg-accent-500 dark:bg-accent-600' />
+                <span className='w-3 h-3 rounded-sm bg-accent-700 dark:bg-accent-400' />
+                <span>More</span>
             </div>
         </div>
     )

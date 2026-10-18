@@ -7,20 +7,31 @@ interface Props {
 
 export default function Reposs({reposUser}: Props) {
     return (
-        <div>
-            <h1 className='mx-4 mt-3 mb-3 font-bold text-2xl'>Repositories:</h1>
-            {reposUser !== null && Array.isArray(reposUser) && reposUser.map(repo => (
-                <a href={repo.html_url} target='_blank' rel='noreferrer' className='no-underline'>
-                    <div key={repo.name} className='bg-slate-50 dark:bg-ink-800 border border-slate-200 dark:border-ink-700 rounded-2xl p-3 flex flex-col gap-1 hover:bg-white dark:hover:bg-ink-700 hover:border-accent-500/50 hover:-translate-y-0.5 transition-all cursor-pointer mb-1 items-center mx-2 mb-2 min-h-max'>
-                        <div className='font-bold text-sm truncate'>{repo.name}</div>
-                        <div className='text-slate-600 dark:text-white/50 text-xs line-clamp-2'>{repo.description}</div>
-                        <div className='flex gap-3 text-xs text-slate-500 dark:text-white/40 mt-1'>
-                            <span>{repo.language}</span>
-                            <span className='flex items-center gap-1'><FiStar /> {repo.stargazers_count}</span>
-                        </div>
-                    </div>
-                </a>
-            ))}
+        <div className='bg-white dark:bg-ink-900 border border-slate-200 dark:border-ink-800 rounded-2xl shadow-lg dark:shadow-none p-6'>
+            <h2 className='font-bold text-lg text-slate-900 dark:text-white mb-4'>Repositories</h2>
+            {reposUser !== null && Array.isArray(reposUser) && (
+                <div className='grid grid-cols-1 md:grid-cols-2 gap-3'>
+                    {reposUser.map(repo => (
+                        <a key={repo.name} href={repo.html_url} target='_blank' rel='noreferrer' className='no-underline'>
+                            <div className='h-full bg-slate-50 dark:bg-ink-800 border border-slate-200 dark:border-ink-700 rounded-xl p-4 flex flex-col gap-2 hover:bg-white dark:hover:bg-ink-700 hover:border-accent-500/50 hover:-translate-y-0.5 transition-all cursor-pointer'>
+                                <div className='font-semibold text-sm text-slate-900 dark:text-white truncate'>{repo.name}</div>
+                                {repo.description && (
+                                    <div className='text-slate-600 dark:text-white/50 text-xs line-clamp-2'>{repo.description}</div>
+                                )}
+                                <div className='flex items-center gap-3 text-xs text-slate-500 dark:text-white/40 mt-auto pt-1'>
+                                    {repo.language && (
+                                        <span className='flex items-center gap-1.5'>
+                                            <span className='w-2 h-2 rounded-full bg-accent-400' />
+                                            {repo.language}
+                                        </span>
+                                    )}
+                                    <span className='flex items-center gap-1'><FiStar /> {repo.stargazers_count}</span>
+                                </div>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            )}
         </div>
     )
 }

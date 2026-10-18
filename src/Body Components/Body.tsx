@@ -2,7 +2,6 @@ import type {GithubUser, Repos, ContributionWeek, LanguageStat} from "../Shared/
 import AvaNameBio from "./AvaNameBio.tsx";
 import Calendar from "./Calendar.tsx";
 import Reposs from "./Repos.tsx";
-import Languages from "./Languages.tsx";
 import { FiSearch, FiUserX } from 'react-icons/fi'
 
 
@@ -35,17 +34,14 @@ export function Body({results, reposUser, weeks, languages, loading, currentStre
                     <div className='w-16 h-16 border-4 border-accent-500 border-t-transparent rounded-full animate-spin'/>
                 </div>
             ) : (
-                <div className='grid grid-cols-1 lg:grid-cols-[3fr_1.5fr] text-slate-800 dark:text-white mt-2 mb-2 mx-3 flex-grow'>
-                    <>
-                        <div className='grid grid-rows-[auto_1fr] mt-3 mx-3 min-w-0'>
-                            <AvaNameBio results={results}/>
-                            <div className='min-w-0 overflow-hiddenq'>
-                                <Calendar weeks={weeks} currentStreak={currentStreak} isActive={isActive}/>
-                            </div>
+                <div className='w-full max-w-6xl mx-auto mt-4 mb-6 px-4 flex-grow'>
+                    <div className='grid grid-cols-1 lg:grid-cols-[300px_1fr] gap-6 items-start'>
+                        <AvaNameBio results={results} languages={languages}/>
+                        <div className='flex flex-col gap-6'>
+                            <Calendar weeks={weeks} currentStreak={currentStreak} isActive={isActive}/>
+                            <Reposs reposUser={reposUser}/>
                         </div>
-                        <Reposs reposUser={reposUser}/>
-                        <Languages languages={languages}/>
-                    </>
+                    </div>
                 </div>
             )}
         </>
