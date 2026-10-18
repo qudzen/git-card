@@ -58,14 +58,6 @@ export interface Repos {
     html_url: string
 }
 
-export type ApiErrorKind = 'not-found' | 'rate-limit' | 'timeout' | 'network' | 'server' | 'unknown'
-
-export interface ApiError {
-    kind: ApiErrorKind
-    message: string
-    resetAt?: number
-}
-
 export interface LanguageStat {
     name: string
     color: string

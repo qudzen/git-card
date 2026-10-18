@@ -1,5 +1,5 @@
-import {useEffect, useState, useCallback} from "react";
-import type {ContributionWeek, GithubUser, Repos, ApiError, LanguageStat} from "../Shared/types.tsx";
+import {useEffect, useState} from "react";
+import type {ContributionWeek, GithubUser, Repos, LanguageStat} from "../Shared/types.tsx";
 import {fetchContributions, fetchRepos, fetchLanguages} from "../Shared/api.tsx";
 
 export function useBodyLogic(user: GithubUser | null) {
@@ -9,10 +9,9 @@ export function useBodyLogic(user: GithubUser | null) {
     const [languages, setLanguages] = useState<LanguageStat[]>([])
     const [loading , setLoading] = useState<boolean>(false);
     const [currentStreak, setCurrentStreak] = useState<number>(0);
-    const [isActive, setIsActive] = useState<boolean>(false);
-    const [error, setError] = useState<ApiError | null>(null)
+    const [isActive, setIsActive] = useState<boolean>(false);;
 
-    const calculateStreak = useCallback((weeksData: ContributionWeek[]) => {
+    const calculateStreak = (weeksData: ContributionWeek[]) => {
         const allDays = weeksData.flatMap(week => week.contributionDays)
         const activeDays = allDays
             .filter(day => day.contributionCount > 0)
@@ -49,44 +48,38 @@ export function useBodyLogic(user: GithubUser | null) {
 
         setCurrentStreak(active ? streak : 0)
         setIsActive(active)
-    }, [])
+    }
 
-    const loadData = useCallback(async (userLogin: string) => {
-        setLoading(true)
-        setError(null)
-        try {
-            const [reposData, weeksData, languagesData] = await Promise.all([
-                fetchRepos(userLogin),
-                fetchContributions(userLogin),
-                fetchLanguages(userLogin)
-            ])
-            setRepoUsers(reposData)
-            setWeeks(weeksData)
-            setLanguages(languagesData)
-            calculateStreak(weeksData)
-        } catch (err) {
-            setError(err as ApiError)
-        } finally {
-            setLoading(false)
-        }
-    }, [calculateStreak])
+
 
     useEffect(() => {
         if (!user) {
             setRepoUsers([])
             setWeeks([])
             setLanguages([])
-            setError(null)
             return
         }
-        loadData(user.login)
-    }, [user, loadData])
-
-    const retry = () => {
-        if (user) {
-            loadData(user.login)
+        const userLogin = user.login
+        async function loadData() {
+            setLoading(true)
+            try {
+                const [reposData, weeksData, languagesData] = await Promise.all([
+                    fetchRepos(userLogin),
+                    fetchContributions(userLogin),
+                    fetchLanguages(userLogin)
+                ])
+                setRepoUsers(reposData)
+                setWeeks(weeksData)
+                setLanguages(languagesData)
+                calculateStreak(weeksData)
+            }finally {
+                setLoading(false)
+            }
         }
-    }
+        loadData()
+    }, [user])
+
+
 
     return {
         reposUser,
@@ -95,7 +88,5 @@ export function useBodyLogic(user: GithubUser | null) {
         loading,
         currentStreak,
         isActive,
-        error,
-        retry,
     }
 }

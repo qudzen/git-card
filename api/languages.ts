@@ -34,7 +34,5 @@ export default async function languages(req: VercelRequest, res: VercelResponse)
     })
 
     const data = await response.json()
-    res.setHeader('X-RateLimit-Remaining', response.headers.get('X-RateLimit-Remaining') ?? '')
-    res.setHeader('X-RateLimit-Reset', response.headers.get('X-RateLimit-Reset') ?? '')
-    res.status(response.status).json(data)
+    res.json(data)
 }

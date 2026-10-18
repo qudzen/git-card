@@ -1,26 +1,25 @@
 import { useState, useRef, useEffect } from 'react'
-import type { GithubUser, SearchResponse, ApiError } from '../Shared/types.tsx'
+import type { GithubUser, SearchResponse } from '../Shared/types.tsx'
 import { fetchUser, fetchHints } from '../Shared/api.tsx'
 
 export function useGithubSearch() {
     const [searchUserName, setSearchUserName] = useState<string>('')
     const [results, setResults] = useState<GithubUser | null>(null)
     const [hints, setHints] = useState<SearchResponse | null>(null)
-    const [error, setError] = useState<ApiError | null>(null)
-    const [hintsError, setHintsError] = useState<ApiError | null>(null)
+    const [notFound, setNotFound] = useState<boolean>(false)
     const [activeIndex, setActiveIndex] = useState<number>(-1)
     const hintsRef = useRef<HTMLDivElement>(null)
     const abortControllerRef = useRef<AbortController | null>(null)
     const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     const search = async (searchText: string) => {
-        try {
-            const data = await fetchUser(searchText)
-            setResults(data)
-            setError(null)
-        } catch (err) {
+        const data = await fetchUser(searchText)
+        if (data === null) {
             setResults(null)
-            setError(err as ApiError)
+            setNotFound(true)
+        } else {
+            setResults(data)
+            setNotFound(false)
         }
     }
 
@@ -33,13 +32,12 @@ export function useGithubSearch() {
             const data: SearchResponse = await fetchHints(searchText, controller.signal)
             if (!controller.signal.aborted) {
                 setHints(data)
-                setHintsError(null)
                 setActiveIndex(-1)
             }
-        } catch (err) {
-            if ((err as Error).name === 'AbortError') return
-            const apiErr = err as ApiError
-            setHintsError(apiErr.kind === 'rate-limit' ? apiErr : null)
+        } catch (error) {
+            if ((error as Error).name !== 'AbortError') {
+                throw error
+            }
         }
     }
 
@@ -54,7 +52,6 @@ export function useGithubSearch() {
 
         if (searchText.trim() === '') {
             setHints(null)
-            setHintsError(null)
             abortControllerRef.current?.abort()
             return
         }
@@ -103,11 +100,6 @@ export function useGithubSearch() {
         search(login)
         setHints(null)
     }
-    const retrySearch = () => {
-        if (searchUserName.trim() !== '') {
-            search(searchUserName)
-        }
-    }
     const handleLogoClick = () => {
         window.location.reload()
     }
@@ -144,13 +136,11 @@ export function useGithubSearch() {
         searchUserName,
         results,
         hints,
-        error,
-        hintsError,
+        notFound,
         activeIndex,
         onSearch,
         onKeyDown,
         selectHint,
-        retrySearch,
         handleLogoClick,
         hintsRef
     }
