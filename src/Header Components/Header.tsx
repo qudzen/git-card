@@ -4,6 +4,7 @@ import type {SearchResponse} from "../Shared/types.tsx";
 interface Props {
     searchUserName: string
     hints: SearchResponse | null
+    activeIndex: number
     onSearch: (event: React.ChangeEvent<HTMLInputElement>) => void
     onKeyDown: (event: React.KeyboardEvent<HTMLInputElement>) => void
     selectHint: (login: string) => void
@@ -17,6 +18,7 @@ function Header(
     {
         searchUserName,
         hints,
+        activeIndex,
         onSearch,
         onKeyDown,
         selectHint,
@@ -50,10 +52,11 @@ function Header(
                             />
                             {hints && hints.items && hints.items.length > 0 && (
                                 <div ref={hintsRef} className='absolute top-full left-0 w-80 mt-2 border border-slate-200 dark:border-ink-700 rounded-2xl bg-white dark:bg-ink-900 z-50 overflow-hidden shadow-2xl shadow-black/20 dark:shadow-black/60'>
-                                    {hints.items.map(user => (
+                                    {hints.items.map((user, index) => (
                                         <div onClick={() => {selectHint(user.login)}}
                                              key={user.login}
-                                             className='text-slate-700 dark:text-white/80 px-6 py-3 hover:bg-accent-500/10 hover:text-accent-600 dark:hover:text-accent-300 cursor-pointer transition-colors'
+                                             data-hint-index={index}
+                                             className={`text-slate-700 dark:text-white/80 px-6 py-3 cursor-pointer transition-colors ${index === activeIndex ? 'bg-accent-500/10 text-accent-600 dark:text-accent-300' : 'hover:bg-accent-500/10 hover:text-accent-600 dark:hover:text-accent-300'}`}
                                         >
                                             {user.login}
                                         </div>

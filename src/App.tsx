@@ -9,6 +9,7 @@ function App() {
         results,
         hints,
         notFound,
+        activeIndex,
         onSearch,
         onKeyDown,
         selectHint,
@@ -34,6 +35,7 @@ function App() {
         <Header
             searchUserName={searchUserName}
             hints={hints}
+            activeIndex={activeIndex}
             onSearch={onSearch}
             onKeyDown={onKeyDown}
             selectHint={selectHint}
