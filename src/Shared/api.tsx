@@ -9,8 +9,8 @@ export async function fetchUser(searchText: string):Promise<GithubUser | null> {
     return data
 }
 
-export async function fetchHints(searchText: string):Promise<SearchResponse>  {
-    const response = await fetch(BASE_URL + '/api/hints?username=' + searchText)
+export async function fetchHints(searchText: string, signal?: AbortSignal):Promise<SearchResponse>  {
+    const response = await fetch(BASE_URL + '/api/hints?username=' + searchText, { signal })
     const data = await response.json()
     return data
 }

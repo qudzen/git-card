@@ -8,6 +8,8 @@ export function useGithubSearch() {
     const [hints, setHints] = useState<SearchResponse | null>(null)
     const [notFound, setNotFound] = useState<boolean>(false)
     const hintsRef = useRef<HTMLDivElement>(null)
+    const abortControllerRef = useRef<AbortController | null>(null)
+    const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
     const search = async (searchText: string) => {
         const data = await fetchUser(searchText)
@@ -21,20 +23,39 @@ export function useGithubSearch() {
     }
 
     const searchHints = async (searchText: string) => {
-        const data: SearchResponse = await fetchHints(searchText)
-        setHints(data)
+        abortControllerRef.current?.abort()
+        const controller = new AbortController()
+        abortControllerRef.current = controller
+
+        try {
+            const data: SearchResponse = await fetchHints(searchText, controller.signal)
+            if (!controller.signal.aborted) {
+                setHints(data)
+            }
+        } catch (error) {
+            if ((error as Error).name !== 'AbortError') {
+                throw error
+            }
+        }
     }
 
     const onSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
         const searchText = event.target.value
         setSearchUserName(searchText)
 
+        if (debounceRef.current) {
+            clearTimeout(debounceRef.current)
+        }
+
         if (searchText.trim() === '') {
             setHints(null)
+            abortControllerRef.current?.abort()
             return
         }
 
-        searchHints(searchText)
+        debounceRef.current = setTimeout(() => {
+            searchHints(searchText)
+        }, 300)
     }
 
     const onKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -61,6 +82,15 @@ export function useGithubSearch() {
         }
         document.addEventListener('mousedown', handleClickOutside)
         return () => document.removeEventListener('mousedown', handleClickOutside)
+    }, [])
+
+    useEffect(() => {
+        return () => {
+            abortControllerRef.current?.abort()
+            if (debounceRef.current) {
+                clearTimeout(debounceRef.current)
+            }
+        }
     }, [])
 
 
